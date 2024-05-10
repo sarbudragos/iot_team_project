@@ -41,14 +41,28 @@ class _MainScreenState extends State<MainScreen> {
         ),
         body: Column(
           children: [
-            TextField(
-              controller: TextEditingController()..text = widget.speedService.getMass().toStringAsFixed(2),
-              keyboardType: TextInputType.number,
-              onSubmitted: (value){
-                setState(() {
-                  widget.speedService.setNewMass(double.parse(value));
-                });
-              },
+            Row(
+              children: [
+
+                const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Text(
+                      "Mass:",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                ),
+                Flexible(
+                  child: TextField(
+                    controller: TextEditingController()..text = widget.speedService.getMass().toStringAsFixed(2),
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (value){
+                      setState(() {
+                        widget.speedService.setNewMass(double.parse(value));
+                      });
+                    },
+                  ),
+                )
+              ],
             ),
             FutureBuilder(
                 future: future,

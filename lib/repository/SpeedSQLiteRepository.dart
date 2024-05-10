@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:iot_team_project/model/SpeedDatabaseEntry.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -79,5 +81,30 @@ class SpeedSQLiteRepository {
     speedList = List.generate(queryResult.length, (index) => SpeedDatabaseEntry.fromJson(queryResult[index]));
 
     return speedList;
+  }
+
+  Future<List<SpeedDatabaseEntry>> getAllByDay(DateTime day) async {
+    final allEntries = await getAll();
+
+    return allEntries.where((speedDatabaseEntry) =>
+      DateUtils.isSameDay(DateTime.parse(speedDatabaseEntry.dateTime), day)
+    ).toList();
+  }
+
+  Future<List<String>> getAllDays() async{
+    final db = await _getDB();
+    final List<Map<String, dynamic>> queryResult = await db.query("Speed",
+      columns: ["dateTime"],
+      distinct: true
+    );
+
+    Set<String> daySet = List
+        .generate(queryResult.length, (index) => queryResult[index]['dateTime'])
+        .map((e) => DateFormat('dd-MM-yyyy').format(DateTime.parse(e)))
+        .toSet();
+
+    return daySet.toList();
+
+    //final dates = dayList.map((e) => DateFormat('dd-MM-yyyy').format(e.date)).toSet();
   }
 }

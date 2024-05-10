@@ -28,4 +28,25 @@ class SpeedService{
       );
     });
   }
+
+  Future<List<SpeedAndEnergyEntry>> getAllEntriesByDay(DateTime day) async {
+    double mass = additionalInformationRepository.getMass();
+
+    List<SpeedDatabaseEntry> databaseEntries = await speedSQLiteRepository.getAllByDay(day);
+
+    return List.generate(databaseEntries.length, (index){
+      SpeedDatabaseEntry databaseEntry = databaseEntries[index];
+
+      return SpeedAndEnergyEntry(id: databaseEntry.id,
+          speed: databaseEntry.speed,
+          dateTime: databaseEntry.dateTime,
+          energy: (mass * databaseEntry.speed * databaseEntry.speed)/2
+      );
+    });
+  }
+
+  Future<List<String>> getAllDays(){
+    return speedSQLiteRepository.getAllDays();
+  }
+
 }

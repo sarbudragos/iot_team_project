@@ -100,7 +100,7 @@ class SpeedSQLiteRepository {
 
     Set<String> daySet = List
         .generate(queryResult.length, (index) => queryResult[index]['dateTime'])
-        .map((e) => DateFormat('dd-MM-yyyy').format(DateTime.parse(e)))
+        .map((e) => DateFormat('yyyy-MM-dd').format(DateTime.parse(e)))
         .toSet();
 
     return daySet.toList();

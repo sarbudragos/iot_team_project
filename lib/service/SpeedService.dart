@@ -45,8 +45,16 @@ class SpeedService{
     });
   }
 
-  Future<List<String>> getAllDays(){
+  Future<List<String>> getAllDays() async{
     return speedSQLiteRepository.getAllDays();
+  }
+
+  double getMass(){
+    return additionalInformationRepository.getMass();
+  }
+
+  void setNewMass(double mass){
+    additionalInformationRepository.setMass(mass);
   }
 
 }

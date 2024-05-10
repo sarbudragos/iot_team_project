@@ -1,7 +1,7 @@
 class SpeedDatabaseEntry{
   int? id;
   double speed;
-  DateTime dateTime;
+  String dateTime;
 
   SpeedDatabaseEntry({
     this.id,

@@ -1,7 +1,7 @@
 class SpeedAndEnergyEntry{
   int? id;
   double speed;
-  DateTime dateTime;
+  String dateTime;
   double energy;
 
   SpeedAndEnergyEntry({

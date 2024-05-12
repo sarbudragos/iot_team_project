@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iot_team_project/model/SpeedAndEnergyEntry.dart';
 import 'package:iot_team_project/service/SpeedService.dart';
 
+import 'BluetoothScreen.dart';
 import 'ListEntryWidget.dart';
 
 class MainScreen extends StatefulWidget {
@@ -37,7 +38,18 @@ class _MainScreenState extends State<MainScreen> {
         appBar: AppBar(
           title: const Text('Speed entries'),
           centerTitle: true,
-          //actions: [],
+          actions: [
+            IconButton(
+              icon: Icon(Icons.navigate_next),
+              onPressed: () {
+                // Navigate to bluetooth page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BluetoothScreen()),
+                );
+              },
+            ),
+          ],
         ),
         body: Column(
           children: [

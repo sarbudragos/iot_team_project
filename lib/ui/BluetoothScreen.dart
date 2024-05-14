@@ -40,12 +40,16 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
                                       title: Text(data.device.name),
                                       subtitle: Text(data.device.id.id),
                                       trailing: Text(data.rssi.toString()),
-                                      onTap: ()=> controller.connectToDevice(data.device),
+                                      onTap: () {
+                                        controller.connectToDevice(data.device);
+                                        // Navigate back to the main screen
+                                        Navigator.pop(context);
+                                      },
                                     ),
                                   );
                                 }),
                           );
-                        }else{
+                        } else {
                           return Center(child: Text("No Device Found"),);
                         }
                       }),
@@ -62,3 +66,4 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
     );
   }
 }
+

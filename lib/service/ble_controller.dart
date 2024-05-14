@@ -1,5 +1,6 @@
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get/get.dart';
+import 'package:iot_team_project/ui/MainScreen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:iot_team_project/service/SpeedService.dart';
 
@@ -39,6 +40,7 @@ class BleController extends GetxController{
                     // Handle received data
                     print("Received data: ${data.toString()}");
                     SpeedService.instance?.addNewEntryBytes(data);
+                    MainScreenState.instance?.refreshList();
                   });
                 });
               }

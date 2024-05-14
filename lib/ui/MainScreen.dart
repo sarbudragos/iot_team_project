@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:iot_team_project/model/SpeedAndEnergyEntry.dart';
 import 'package:iot_team_project/service/SpeedService.dart';
 
@@ -24,7 +25,7 @@ class MainScreenState extends State<MainScreen> {
   late Future<List<String>> future;
   late List<String> days;
 
-  String selectedDay = "2099-01-01";
+  String selectedDay = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   @override
   void initState() {
@@ -107,6 +108,7 @@ class MainScreenState extends State<MainScreen> {
                     dropdownMenuEntries: snapshot.data!.map<DropdownMenuEntry<String>>((String value) {
                       return DropdownMenuEntry<String>(value: value, label: value);
                     }).toList(),
+                    initialSelection: selectedDay,
                   );
                 }
               }

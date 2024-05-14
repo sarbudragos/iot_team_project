@@ -5,13 +5,17 @@ import '../repository/AdditionalInformationRepository.dart';
 import '../repository/SpeedSQLiteRepository.dart';
 
 class SpeedService{
+  static SpeedService? instance;
+
   SpeedSQLiteRepository speedSQLiteRepository;
   AdditionalInformationRepository additionalInformationRepository;
 
   SpeedService({
     required this.speedSQLiteRepository,
     required this.additionalInformationRepository,
-  });
+  }) {
+    instance = this;
+  }
 
   Future<List<SpeedAndEnergyEntry>> getAllEntries() async {
     double mass = additionalInformationRepository.getMass();
@@ -34,7 +38,7 @@ class SpeedService{
 
     List<SpeedDatabaseEntry> databaseEntries = await speedSQLiteRepository.getAllByDay(day);
 
-    return List.generate(databaseEntries.length, (index){
+    var result = List.generate(databaseEntries.length, (index){
       SpeedDatabaseEntry databaseEntry = databaseEntries[index];
 
       return SpeedAndEnergyEntry(id: databaseEntry.id,
@@ -43,6 +47,8 @@ class SpeedService{
           energy: (mass * databaseEntry.speed * databaseEntry.speed)/2
       );
     });
+
+    return result.reversed.toList();
   }
 
   Future<List<String>> getAllDays() async{
@@ -55,6 +61,16 @@ class SpeedService{
 
   void setNewMass(double mass){
     additionalInformationRepository.setMass(mass);
+  }
+
+  void addNewEntry(double speed) async {
+    await speedSQLiteRepository.add(SpeedDatabaseEntry(speed: speed, dateTime: DateTime.now().toString()));
+  }
+
+  void addNewEntryBytes(List<int> data) async {
+    int speedInt = data[0] + data[1] * 256 + data[2] * 256 * 256 + data[3] * 256 * 256 * 256;
+    double speed = speedInt / 100.0;
+    addNewEntry(speed);
   }
 
 }

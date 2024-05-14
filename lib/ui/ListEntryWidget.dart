@@ -25,9 +25,9 @@ class ListEntryWidget extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Date: ${speedAndEnergyEntry.dateTime} "
-                    "Speed: ${speedAndEnergyEntry.speed.toStringAsFixed(2)} "
-                    "Energy: ${speedAndEnergyEntry.energy.toStringAsFixed(2)}",
+                    "Date: ${speedAndEnergyEntry.dateTime}\n"
+                    "Speed: ${speedAndEnergyEntry.speed.toStringAsFixed(2)} m/s\n"
+                    "Energy: ${speedAndEnergyEntry.energy.toStringAsFixed(2)} J",
                     style: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.bold),
                   ),

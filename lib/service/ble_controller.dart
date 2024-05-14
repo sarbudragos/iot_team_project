@@ -1,6 +1,7 @@
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:iot_team_project/service/SpeedService.dart';
 
 class BleController extends GetxController{
 
@@ -26,6 +27,24 @@ class BleController extends GetxController{
         print("Device connecting to: ${device.name}");
       }else if(isConnected == BluetoothDeviceState.connected){
         print("Device connected: ${device.name}");
+
+        // After connecting, find characteristics that support notifications
+        device.discoverServices().then((services) {
+          services.forEach((service) {
+            service.characteristics.forEach((characteristic) {
+              if (characteristic.properties.notify) {
+                characteristic.setNotifyValue(true).then((value) {
+                  // Subscribe to notifications
+                  characteristic.value.listen((data) {
+                    // Handle received data
+                    print("Received data: ${data.toString()}");
+                    SpeedService.instance?.addNewEntryBytes(data);
+                  });
+                });
+              }
+            });
+          });
+        });
       }else{
         print("Device Disconnected");
       }
